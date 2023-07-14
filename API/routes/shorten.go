@@ -3,7 +3,8 @@ package routes
 import (
 	"time"
 
-	"github.com/gofiber/fiber"
+	"github.com/JaeAeich/QuickLink.git/helpers"
+	"github.com/asaskevich/govalidator"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -38,7 +39,6 @@ func ShortenURL(c *fiber.Ctx) error {
 	}
 
 	// Check for domain error
-
 	if !helpers.RemoveDomainError(body.URL) {
 		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Domain is protected"})
 	}
@@ -46,4 +46,7 @@ func ShortenURL(c *fiber.Ctx) error {
 	// Enforce https, SSL
 
 	body.URL = helpers.EnforceHTTP(body.URL)
+
+	//TODO : return ShortenURL
+	return c.Status(fiber.StatusOK).JSON("TODO")
 }
