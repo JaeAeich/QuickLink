@@ -3,7 +3,7 @@ package routes
 import (
 	"time"
 
-	"github.com/JaeAeich/QuickLink.git/helpers"
+	"github.com/JaeAeich/QuickLink/helpers"
 	"github.com/asaskevich/govalidator"
 	"github.com/gofiber/fiber/v2"
 )
