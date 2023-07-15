@@ -20,11 +20,11 @@ type request struct {
 }
 
 type response struct {
-	URL            string        `json:"url"`
-	CustomerShort  string        `json:"short"`
-	Expiry         time.Duration `json:"expiry"`
-	XRateRemaining int           `json:"rate_limit"`
-	YRateRemaining time.Duration `json:"rate_limit_reset"`
+	URL             string        `json:"url"`
+	CustomerShort   string        `json:"short"`
+	Expiry          time.Duration `json:"expiry"`
+	XRateRemaining  int           `json:"rate_limit"`
+	XRateLimitReset time.Duration `json:"rate_limit_reset"`
 }
 
 func ShortenURL(c *fiber.Ctx) error {
@@ -103,10 +103,25 @@ func ShortenURL(c *fiber.Ctx) error {
 		})
 	}
 
+	resp := response{
+		URL:             body.URL,
+		CustomerShort:   "",
+		Expiry:          body.Expiry,
+		XRateRemaining:  10,
+		XRateLimitReset: 30,
+	}
+
 	//  Decrementing the value stored in Redis for the given IP address.
 	// This is used to enforce rate limiting for the API.
 	r2.Decr(database.Ctx, c.IP())
 
-	//TODO : return ShortenURL
-	return c.Status(fiber.StatusOK).JSON("TODO")
+	val, _ = r2.Get(database.Ctx, c.IP()).Result()
+	resp.XRateRemaining, _ = strconv.Atoi(val)
+
+	ttl, _ := r2.TTL(database.Ctx, c.IP()).Result()
+	resp.XRateLimitReset = ttl / time.Nanosecond / time.Minute
+
+	resp.CustomerShort = os.Getenv("DOMAIN") + "/" + id
+
+	return c.Status(fiber.StatusOK).JSON(resp)
 }
