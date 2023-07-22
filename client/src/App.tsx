@@ -18,12 +18,15 @@ import {
 	CardFooter,
 	Avatar,
 	Grid,
+	Modal,
+	useDisclosure,
 } from '@chakra-ui/react';
 import { Link } from 'react-scroll';
 import axios from 'axios';
 import { IconBase } from 'react-icons';
 import { FaGithub, FaLinkedin, FaHeart } from 'react-icons/fa';
 import { useState } from 'react';
+import ResponseModal from './components/ResponseModal';
 
 const theme = extendTheme({
 	fonts: {
@@ -32,27 +35,40 @@ const theme = extendTheme({
 	},
 });
 
+// Define an interface for the API response data
+export interface ApiResponse {
+	url: string;
+	short: string;
+	expiry: string;
+	rate_limit: number;
+	rate_limit_reset: string;
+}
 function App() {
 	const [input, setInput] = useState('');
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	// Set the type of the state as the ApiResponse interface
+	const [apiResponse, setApiResponse] = useState<ApiResponse>({
+		url: 'url',
+		short: 'short',
+		expiry: 'expiry',
+		rate_limit: 0,
+		rate_limit_reset: 'limit',
+	});
 
 	const handleShorten = async () => {
 		// Add your backend URL for the API endpoint
 		const url = `${import.meta.env.VITE_BACKEND_URL}/api/v1`;
-		console.log(url);
 
 		// Prepare the data payload with the 'input' value
-		const data = { input };
+		const data = { url: input };
 
-		console.log(data);
 		try {
 			// Make a POST request to the backend API to shorten the URL
 			const response = await axios.post(url, data);
 
-			// Assuming the backend returns the shortened URL in the response
-			const shortenedUrl = response.data.shortenedUrl;
-
-			// Do something with the shortened URL, e.g., display it or copy it to clipboard
-			console.log('Shortened URL:', shortenedUrl);
+			setApiResponse(response.data);
+			onOpen();
 		} catch (e: unknown) {
 			if (e instanceof Error) {
 				console.log(e.message);
@@ -62,6 +78,15 @@ function App() {
 
 	return (
 		<ChakraProvider theme={theme}>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ResponseModal
+					url={apiResponse.url}
+					short={apiResponse.short}
+					expiry={apiResponse.expiry}
+					rate_limit={apiResponse.rate_limit}
+					rate_limit_reset={apiResponse.rate_limit_reset}
+				/>
+			</Modal>
 			<Flex minHeight='100vh' direction='column'>
 				{/* Navbar */}
 				<Flex bg='teal.500' color='white' align='center' justify='center' p={4}>
