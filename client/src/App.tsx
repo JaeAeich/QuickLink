@@ -5,7 +5,7 @@ import {
 	Input,
 	Button,
 	Icon,
-	Link,
+	Link as ChakraLink,
 	IconButton,
 	Text,
 	extendTheme,
@@ -19,14 +19,9 @@ import {
 	Avatar,
 	Grid,
 } from '@chakra-ui/react';
+import { Link } from 'react-scroll';
 import { IconBase } from 'react-icons';
-import {
-	FaGithub,
-	FaTwitter,
-	FaInstagram,
-	FaLinkedin,
-	FaHeart,
-} from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaHeart } from 'react-icons/fa';
 
 const theme = extendTheme({
 	fonts: {
@@ -87,14 +82,22 @@ function App() {
 										URLs and share them with your friends. It's fast, simple,
 										and free to use.
 									</Text>
-									<Button
-										// onClick={handleGetStartedClick}
-										colorScheme='teal'
-										size='lg'
-										width={{ base: 'full' }} // Full width on small screens, fixed width on larger screens
+									<Link
+										activeClass='active'
+										to='input'
+										spy={true}
+										smooth={true}
+										offset={-70} // Adjust the offset to match the height of your navbar
+										duration={500} // Set the duration of the scrolling animation in milliseconds
 									>
-										Get Started
-									</Button>
+										<Button
+											colorScheme='teal'
+											size='lg'
+											width={{ base: 'full' }}
+										>
+											Get Started
+										</Button>
+									</Link>
 								</Box>
 								<Image
 									src='/src/assets/Hero.png'
@@ -143,6 +146,7 @@ function App() {
 											focusBorderColor='teal.500'
 											rounded='md'
 											mb={4}
+											name='input'
 										/>
 										<Button colorScheme='teal' size='lg' width='100%'>
 											Shorten URL
@@ -223,7 +227,14 @@ function App() {
 				</Box>
 
 				{/* Footer */}
-				<Flex bg='teal.500' gap='1rem' color='white' align='center' justify='center' p={4}>
+				<Flex
+					bg='teal.500'
+					gap='1rem'
+					color='white'
+					align='center'
+					justify='center'
+					p={4}
+				>
 					<Flex gap='0.2rem' justify='center' alignItems='center'>
 						<Box>Made With</Box>
 						<IconBase>
@@ -233,7 +244,7 @@ function App() {
 						by JaeAeich
 					</Flex>
 					<IconButton
-						as={Link}
+						as={ChakraLink}
 						href='https://github.com/JaeAeich'
 						aria-label='GitHub'
 						icon={<Icon as={FaGithub} />}
@@ -241,7 +252,7 @@ function App() {
 						isRound
 					/>
 					<IconButton
-						as={Link}
+						as={ChakraLink}
 						href='https://www.linkedin.com/in/javed-habib/'
 						aria-label='Twitter'
 						icon={<Icon as={FaLinkedin} />}
