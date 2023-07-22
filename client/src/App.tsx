@@ -20,8 +20,10 @@ import {
 	Grid,
 } from '@chakra-ui/react';
 import { Link } from 'react-scroll';
+import axios from 'axios';
 import { IconBase } from 'react-icons';
 import { FaGithub, FaLinkedin, FaHeart } from 'react-icons/fa';
+import { useState } from 'react';
 
 const theme = extendTheme({
 	fonts: {
@@ -31,6 +33,33 @@ const theme = extendTheme({
 });
 
 function App() {
+	const [input, setInput] = useState('');
+
+	const handleShorten = async () => {
+		// Add your backend URL for the API endpoint
+		const url = `${import.meta.env.VITE_BACKEND_URL}/api/v1`;
+		console.log(url);
+
+		// Prepare the data payload with the 'input' value
+		const data = { input };
+
+		console.log(data);
+		try {
+			// Make a POST request to the backend API to shorten the URL
+			const response = await axios.post(url, data);
+
+			// Assuming the backend returns the shortened URL in the response
+			const shortenedUrl = response.data.shortenedUrl;
+
+			// Do something with the shortened URL, e.g., display it or copy it to clipboard
+			console.log('Shortened URL:', shortenedUrl);
+		} catch (e: unknown) {
+			if (e instanceof Error) {
+				console.log(e.message);
+			}
+		}
+	};
+
 	return (
 		<ChakraProvider theme={theme}>
 			<Flex minHeight='100vh' direction='column'>
@@ -146,9 +175,16 @@ function App() {
 											focusBorderColor='teal.500'
 											rounded='md'
 											mb={4}
+											value={input}
 											name='input'
+											onChange={(e) => setInput(e.target.value)}
 										/>
-										<Button colorScheme='teal' size='lg' width='100%'>
+										<Button
+											colorScheme='teal'
+											size='lg'
+											width='100%'
+											onClick={handleShorten}
+										>
 											Shorten URL
 										</Button>
 									</Box>
