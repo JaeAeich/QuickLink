@@ -87,9 +87,16 @@ function App() {
 					rate_limit_reset={apiResponse.rate_limit_reset}
 				/>
 			</Modal>
-			<Flex minHeight='100vh' direction='column'>
+			<Flex direction='column'>
 				{/* Navbar */}
-				<Flex bg='teal.500' color='white' align='center' justify='center' p={4}>
+				<Flex
+					bg='teal.500'
+					height='4rem'
+					color='white'
+					align='center'
+					justify='center'
+					p={4}
+				>
 					<Image
 						src='/src/assets/android-chrome-512x512.png'
 						alt='Logo'
@@ -101,10 +108,10 @@ function App() {
 					</Text>
 				</Flex>
 
-				<Box minHeight='100vh' display='grid' gridTemplateRows={`1fr 1fr 1fr`}>
+				<Flex direction='column'>
 					{/* Hero Section */}
 					<Flex
-						flexGrow={1}
+						height='100vh'
 						justify='center'
 						align='center'
 						p={4}
@@ -114,7 +121,7 @@ function App() {
 					>
 						<Box textAlign='center' width='100%' maxW='960px'>
 							<Flex
-								direction={{ base: 'column', md: 'row' }}
+								direction={{ base: 'column-reverse', md: 'row' }}
 								align={{ base: 'center', md: 'center' }}
 								justify={{ base: 'center', md: 'space-between' }}
 							>
@@ -157,7 +164,6 @@ function App() {
 									src='/src/assets/Hero.png'
 									alt='Hero Image'
 									maxW='400px'
-									display={{ base: 'none', md: 'block' }}
 								/>
 							</Flex>
 						</Box>
@@ -165,12 +171,13 @@ function App() {
 
 					{/* Input Section */}
 					<Flex
-						flexGrow={1}
+						minHeight='70vh'
 						justify='center'
 						align='center'
 						p={4}
 						bg='gray.100'
 						textAlign='center'
+						name='input'
 					>
 						<Box textAlign='center' width='100%' maxW='1024px'>
 							<Flex
@@ -201,7 +208,6 @@ function App() {
 											rounded='md'
 											mb={4}
 											value={input}
-											name='input'
 											onChange={(e) => setInput(e.target.value)}
 										/>
 										<Button
@@ -220,7 +226,6 @@ function App() {
 
 					{/* Testimonial Section */}
 					<Flex
-						flexGrow={1}
 						justify='center'
 						alignItems='center'
 						direction='column'
@@ -260,7 +265,7 @@ function App() {
 									</Stack>
 								</CardBody>
 								<Divider></Divider>
-								<CardFooter>Super Man</CardFooter>
+								<CardFooter>Superman</CardFooter>
 							</Card>
 							<Card>
 								<CardBody textAlign='center'>
@@ -285,7 +290,7 @@ function App() {
 							</Card>
 						</Grid>
 					</Flex>
-				</Box>
+				</Flex>
 
 				{/* Footer */}
 				<Flex
@@ -293,33 +298,41 @@ function App() {
 					gap='1rem'
 					color='white'
 					align='center'
-					justify='center'
+					justify={{ base: 'space-between', sm: 'center' }}
 					p={4}
 				>
-					<Flex gap='0.2rem' justify='center' alignItems='center'>
-						<Box>Made With</Box>
+					<Flex
+						gap='0.2rem'
+						justify='center'
+						alignItems='center'
+						fontSize='sm'
+						direction={{ base: 'column', sm: 'row' }}
+					>
+						<Box>Made with</Box>
 						<IconBase>
-							<Icon as={FaHeart} />
+							<Icon color='red.400' as={FaHeart} />
 						</IconBase>
 						<Box></Box>
-						by JaeAeich
+						by Jae Aeich
 					</Flex>
-					<IconButton
-						as={ChakraLink}
-						href='https://github.com/JaeAeich'
-						aria-label='GitHub'
-						icon={<Icon as={FaGithub} />}
-						mr={2}
-						isRound
-					/>
-					<IconButton
-						as={ChakraLink}
-						href='https://www.linkedin.com/in/javed-habib/'
-						aria-label='Twitter'
-						icon={<Icon as={FaLinkedin} />}
-						mr={2}
-						isRound
-					/>
+					<Flex>
+						<IconButton
+							as={ChakraLink}
+							href='https://github.com/JaeAeich'
+							aria-label='GitHub'
+							icon={<Icon as={FaGithub} />}
+							mr={2}
+							isRound
+						/>
+						<IconButton
+							as={ChakraLink}
+							href='https://www.linkedin.com/in/javed-habib/'
+							aria-label='Twitter'
+							icon={<Icon as={FaLinkedin} />}
+							mr={2}
+							isRound
+						/>
+					</Flex>
 				</Flex>
 			</Flex>
 		</ChakraProvider>
