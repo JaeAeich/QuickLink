@@ -269,7 +269,7 @@ function App() {
 										src='https://sketchok.com/images/articles/01-cartoons/000-va/24/08.jpg'
 									/>
 									<Stack mt='6' spacing='3'>
-										<Heading size='md'>Life Changed</Heading>
+										<Heading size='md'>I Quacking Love it</Heading>
 										<Text>
 											Well, well, well, the QuickLink URL Shortener is one
 											quack-tastic tool! 🦆💨 It shrinks long links faster than
