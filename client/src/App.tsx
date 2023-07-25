@@ -56,9 +56,11 @@ function App() {
 		rate_limit_reset: 'limit',
 	});
 
+	console.log(process.env.VITE_BACKEND_URL);
+
 	const handleShorten = async () => {
 		// Add your backend URL for the API endpoint
-		const url = `${import.meta.env.VITE_BACKEND_URL}/api/v1`;
+		const url = `${process.env.VITE_BACKEND_URL}/api/v1`;
 
 		// Prepare the data payload with the 'input' value
 		const data = { url: input };
@@ -98,7 +100,7 @@ function App() {
 					p={4}
 				>
 					<Image
-						src='/src/assets/android-chrome-512x512.png'
+						src='android-chrome-512x512.png'
 						alt='Logo'
 						boxSize='40px'
 						mr={2}
@@ -160,11 +162,7 @@ function App() {
 										</Button>
 									</Link>
 								</Box>
-								<Image
-									src='/src/assets/Hero.png'
-									alt='Hero Image'
-									maxW='400px'
-								/>
+								<Image src='Hero.png' alt='Hero Image' maxW='400px' />
 							</Flex>
 						</Box>
 					</Flex>
@@ -177,6 +175,7 @@ function App() {
 						p={4}
 						bg='gray.100'
 						textAlign='center'
+						//@ts-ignore
 						name='input'
 					>
 						<Box textAlign='center' width='100%' maxW='1024px'>
@@ -187,7 +186,7 @@ function App() {
 							>
 								<Box flexShrink={0} textAlign='center' mr={{ base: 0, md: 6 }}>
 									<Image
-										src='/src/assets/illustrations.png'
+										src='illustrations.png'
 										alt='Illustration'
 										maxW={{ base: '100%', md: '400px' }}
 									/>
